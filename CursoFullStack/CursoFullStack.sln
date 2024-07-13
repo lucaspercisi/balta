@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStack.Core", "FullStack.Core\FullStack.Core.csproj", "{47870EF9-FD5E-487C-A467-5B505C56EC48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStack.Api", "FullStack.Api\FullStack.Api.csproj", "{C484C4C1-1572-49E6-9260-F636B05D39A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{47870EF9-FD5E-487C-A467-5B505C56EC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47870EF9-FD5E-487C-A467-5B505C56EC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47870EF9-FD5E-487C-A467-5B505C56EC48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C484C4C1-1572-49E6-9260-F636B05D39A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C484C4C1-1572-49E6-9260-F636B05D39A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C484C4C1-1572-49E6-9260-F636B05D39A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C484C4C1-1572-49E6-9260-F636B05D39A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

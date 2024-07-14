@@ -1,8 +1,10 @@
 using FullStack.Api.Data;
+using FullStack.Api.Handlers;
+using FullStack.Core.Handlers;
 using FullStack.Core.Models;
+using FullStack.Core.Requests.Categories;
+using FullStack.Core.Responses;
 using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(x =>
-{
-    x.CustomSchemaIds(n => n.FullName);
-});
-builder.Services.AddTransient<Handler>();
+builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 
 var app = builder.Build();
 
@@ -29,47 +28,34 @@ app.UseSwaggerUI();
 
 app.MapPost(
     "/v1/catogories",
-    (Request request, Handler handler) => handler.Handle(request))
+    async (CreateCategoryRequest request, ICategoryHandler handler) => await handler.CreateAsync(request))
     .WithName("Categories: Create")
     .WithSummary("Cria uma nova categoria")
-    .Produces<Response>();
+    .Produces<Response<Category>>();
+
+
+app.MapPut(
+    "/v1/catogories/{id}",
+    async (long id, UpdateCategoryRequest request, ICategoryHandler handler) =>
+    {
+        request.Id = id;
+        await handler.UpdateAsync(request);
+    })
+    .WithName("Categories: Update")
+    .WithSummary("Atualiza uma categoria")
+    .Produces<Response<Category>>();
+
+
+app.MapDelete(
+    "/v1/catogories/{id}",
+    async (long id, ICategoryHandler handler) =>
+    {
+        var request = new DeleteCategoryRequest { Id = id };
+        await handler.DeleteAsync(request);
+    })
+    .WithName("Categories: Delete")
+    .WithSummary("Exclui uma categoria")
+    .Produces<Response<Category>>();
 
 
 app.Run();
-
-//Request
-public class Request
-{
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-}
-
-//Response
-public class Response
-{
-    public long Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-}
-
-
-public class Handler(AppDbContext context)
-{
-    public Response Handle(Request request)
-    {
-        var category = new Category()
-        {
-            Title = request.Title,
-            Description = request.Description,
-        };
-
-        context.Categories.Add(category);
-        context.SaveChanges();
-
-        return new Response()
-        {
-            Id = category.Id,
-            Title = category.Title
-        };
-    }
-
-}

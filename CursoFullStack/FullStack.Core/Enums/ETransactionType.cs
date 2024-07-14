@@ -1,4 +1,4 @@
-﻿namespace FullStack.Core.Models
+﻿namespace FullStack.Core.Enums
 {
     public enum ETransactionType
     {

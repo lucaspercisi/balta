@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using FullStack.Core.Enums;
 
 namespace FullStack.Core.Models
 {

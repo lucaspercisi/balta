@@ -60,9 +60,21 @@ namespace FullStack.Api.Handlers
             throw new NotImplementedException();
         }
 
-        public Task<Response<Category?>> GetAsync(GetCategoryRequest request)
+        public async Task<Response<Category?>> GetByIdAsync(GetCategoryRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                return category is null
+                    ? new Response<Category?>(data: null, code: 404, message: "Categoria não encontrada.")
+                    : new Response<Category?>(category);
+            }
+            catch (Exception ex)
+            {
+                //seriloger
+                Console.WriteLine(ex);
+                return new Response<Category?>(null, 500, "Não foi possível buscar a categoria.");
+            }
         }
 
         public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)

@@ -18,7 +18,7 @@ namespace FullStack.Core.Responses
         {
             Data = data;
             Message = message;
-            _code = code;            
+            _code = code;
         }
 
         public TData? Data { get; set; }

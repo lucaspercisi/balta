@@ -1,6 +1,6 @@
 ﻿using FullStack.Api.Commom.Api;
 using FullStack.Api.Endpoints.Categories;
-using FullStack.Core.Models;
+using FullStack.Api.Endpoints.Transactions;
 
 namespace FullStack.Api.Endpoints
 {
@@ -19,6 +19,15 @@ namespace FullStack.Api.Endpoints
                 .MapEndpoint<DeleteCategoryEndpoint>()
                 .MapEndpoint<GetCategoryByIdEndpoint>()
                 .MapEndpoint<GetAllCagoriesEndpoint>();
+
+            endpoints.MapGroup("v1/transactions")
+                .WithTags("transactions")
+                //.RequireAuthorization()
+                .MapEndpoint<CreateTransactionEndpoint>()
+                .MapEndpoint<UpdateTransactionEndpoint>()
+                .MapEndpoint<DeleteTransactionEndpoint>()
+                .MapEndpoint<GetTransactionByIdEndpoint>()
+                .MapEndpoint<GetAllTransactionsEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app) where TEndpoint : IEndpoint

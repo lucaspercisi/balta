@@ -9,7 +9,7 @@ namespace FullStack.Api.Endpoints.Categories
     public class DeleteCategoryEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
-            => app.MapPut("/{id}", HandleAsync)
+            => app.MapDelete("/{id}", HandleAsync)
             .WithName("Catogories: Delete")
             .WithSummary("Remove uma categoria")
             .WithDescription("Remove uma categoria")
@@ -27,8 +27,8 @@ namespace FullStack.Api.Endpoints.Categories
             var result = await handler.DeleteAsync(request);
 
             return result.IsSucess
-                ? TypedResults.Ok(result.Data)
-                : TypedResults.BadRequest(result.Data);
+                ? TypedResults.Ok(result)
+                : TypedResults.BadRequest(result);
         }
     }
 }

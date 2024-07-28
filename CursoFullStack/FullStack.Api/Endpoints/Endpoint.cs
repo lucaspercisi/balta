@@ -14,7 +14,11 @@ namespace FullStack.Api.Endpoints
             endpoints.MapGroup("v1/categories")
                 .WithTags("categories")
                 //.RequireAuthorization()
-                .MapEndpoint<CreateCategoryEndpoint>();
+                .MapEndpoint<CreateCategoryEndpoint>()
+                .MapEndpoint<UpdateCategoryEndpoint>()
+                .MapEndpoint<DeleteCategoryEndpoint>()
+                .MapEndpoint<GetCategoryByIdEndpoint>()
+                .MapEndpoint<GetAllCagoriesEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app) where TEndpoint : IEndpoint

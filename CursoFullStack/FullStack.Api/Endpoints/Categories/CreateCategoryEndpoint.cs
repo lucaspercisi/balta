@@ -18,11 +18,12 @@ namespace FullStack.Api.Endpoints.Categories
 
         private static async Task<IResult> HandleAsync(ICategoryHandler handler, CreateCategoryRequest request)
         {
+            request.UserId = "teste@lucas.io";
             var result = await handler.CreateAsync(request);
 
             return result.IsSucess
-                ? TypedResults.Created($"/{result.Data?.Id}", result.Data)
-                : TypedResults.BadRequest(result.Data);
+                ? TypedResults.Created($"/{result.Data?.Id}", result)
+                : TypedResults.BadRequest(result);
         }
     }
 }

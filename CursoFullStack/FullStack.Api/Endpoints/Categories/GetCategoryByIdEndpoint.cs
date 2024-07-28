@@ -27,8 +27,8 @@ namespace FullStack.Api.Endpoints.Categories
             var result = await handler.GetByIdAsync(request);
 
             return result.IsSucess
-                ? TypedResults.Ok(result.Data)
-                : TypedResults.BadRequest(result.Data);
+                ? TypedResults.Ok(result)
+                : TypedResults.BadRequest(result);
         }
     }
 }

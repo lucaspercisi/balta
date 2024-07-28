@@ -13,7 +13,7 @@ namespace FullStack.Api.Endpoints.Transactions
             .WithName("Transactions: Create")
             .WithSummary("Cria uma nova transação")
             .WithDescription("Cria uma nova transação")
-            .WithOrder(6)
+            .WithOrder(1)
             .Produces<Response<Transaction?>>();
 
         private static async Task<IResult> HandleAsync(ITransactionHandler handler, CreateTransactionRequest request)

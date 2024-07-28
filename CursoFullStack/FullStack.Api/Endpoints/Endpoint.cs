@@ -12,7 +12,7 @@ namespace FullStack.Api.Endpoints
                 .MapGroup("");
 
             endpoints.MapGroup("v1/categories")
-                .WithTags("categories")
+                .WithTags("Categories")
                 //.RequireAuthorization()
                 .MapEndpoint<CreateCategoryEndpoint>()
                 .MapEndpoint<UpdateCategoryEndpoint>()
@@ -21,13 +21,14 @@ namespace FullStack.Api.Endpoints
                 .MapEndpoint<GetAllCagoriesEndpoint>();
 
             endpoints.MapGroup("v1/transactions")
-                .WithTags("transactions")
+                .WithTags("Transactions")
                 //.RequireAuthorization()
                 .MapEndpoint<CreateTransactionEndpoint>()
                 .MapEndpoint<UpdateTransactionEndpoint>()
                 .MapEndpoint<DeleteTransactionEndpoint>()
                 .MapEndpoint<GetTransactionByIdEndpoint>()
-                .MapEndpoint<GetAllTransactionsEndpoint>();
+                .MapEndpoint<GetAllTransactionsEndpoint>()
+                .MapEndpoint<GetTransactionsByPeriodEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app) where TEndpoint : IEndpoint

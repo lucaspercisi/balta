@@ -10,10 +10,10 @@ namespace FullStack.Api.Endpoints.Transactions
     {
         public static void Map(IEndpointRouteBuilder app)
             => app.MapGet("/{id}", HandleAsync)
-            .WithName("Catogories: Get by Id")
+            .WithName("Transactions: Get by Id")
             .WithSummary("Busca uma transação por Id")
             .WithDescription("Busca uma transação por Id")
-            .WithOrder(9)
+            .WithOrder(4)
             .Produces<Response<Transaction?>>();
 
         private static async Task<IResult> HandleAsync(ITransactionHandler handler, long id)

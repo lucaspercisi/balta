@@ -10,10 +10,10 @@ namespace FullStack.Api.Endpoints.Transactions
     {
         public static void Map(IEndpointRouteBuilder app)
             => app.MapDelete("/{id}", HandleAsync)
-            .WithName("Catogories: Delete")
+            .WithName("Transactions: Delete")
             .WithSummary("Remove uma transação")
             .WithDescription("Remove uma transação")
-            .WithOrder(7)
+            .WithOrder(3)
             .Produces<Response<Transaction?>>();
 
         private static async Task<IResult> HandleAsync(ITransactionHandler handler, long id)

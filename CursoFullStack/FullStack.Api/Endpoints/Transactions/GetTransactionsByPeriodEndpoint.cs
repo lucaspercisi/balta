@@ -8,29 +8,33 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FullStack.Api.Endpoints.Transactions
 {
-    public class GetAllTransactionsEndpoint : IEndpoint
+    public class GetTransactionsByPeriodEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
             => app.MapGet("/", HandleAsync)
             .WithName("Transactions: Get All")
             .WithSummary("Busca todas transaçãos do usuário")
             .WithDescription("Busca todas transaçãos do usuário")
-            .WithOrder(2)
+            .WithOrder(6)
             .Produces<PagedResponse<List<Transaction>?>>();
 
         private static async Task<IResult> HandleAsync(
             ITransactionHandler handler,
+            [FromQuery] DateTime? startDate = null,
+            [FromQuery] DateTime? endDate = null,
             [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
             [FromQuery] int pageSize = Configuration.DefaultPageSize)
         {
-            var request = new GetAllTransactionsRequest
+            var request = new GetTransactionsByPeriodRequest
             {
+                UserId = "teste@lucas.io",
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                UserId = "teste@lucas.io"
+                StartDate = startDate,
+                EndDate = endDate
             };
 
-            var result = await handler.GetAllAsync(request);
+            var result = await handler.GetAllPeriodAsync(request);
 
             return result.IsSucess
                 ? TypedResults.Ok(result)

@@ -10,10 +10,10 @@ namespace FullStack.Api.Endpoints.Transactions
     {
         public static void Map(IEndpointRouteBuilder app)
             => app.MapPut("/{id}", HandleAsync)
-            .WithName("Catogories: Update")
+            .WithName("Transactions: Update")
             .WithSummary("Atualiza uma transação")
             .WithDescription("Atualiza uma transação")
-            .WithOrder(10)
+            .WithOrder(5)
             .Produces<Response<Transaction?>>();
 
         private static async Task<IResult> HandleAsync(ITransactionHandler handler, UpdateTransactionRequest request, long id)

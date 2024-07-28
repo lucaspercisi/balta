@@ -82,7 +82,7 @@ namespace FullStack.Api.Handlers
             }
         }
 
-        public async Task<Response<Category?>> GetByIdAsync(GetCategoryRequest request)
+        public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
         {
             try
             {

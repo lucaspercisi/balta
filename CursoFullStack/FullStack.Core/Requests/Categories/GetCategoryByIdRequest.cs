@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FullStack.Core.Requests.Categories
 {
-    public class GetCategoryRequest : Request
+    public class GetCategoryByIdRequest : Request
     {
 
     }

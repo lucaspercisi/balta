@@ -1,4 +1,5 @@
 ﻿using FullStack.Api.Data;
+using FullStack.Core.Common;
 using FullStack.Core.Handlers;
 using FullStack.Core.Models;
 using FullStack.Core.Requests.Transactions;
@@ -82,7 +83,37 @@ namespace FullStack.Api.Handlers
             {
                 //seriloger
                 Console.WriteLine(ex);
-                return new PagedResponse<List<Transaction?>>(null, 500, "Não foi possível buscar as categorias");
+                return new PagedResponse<List<Transaction?>>(null, 500, "Não foi possível buscar as transações");
+            }
+        }
+
+        public async Task<PagedResponse<List<Transaction?>>> GetAllPeriodAsync(GetTransactionsByPeriodRequest request)
+        {
+            try
+            {
+                request.StartDate ??= DateTime.Now.GetFirstDay();
+                request.EndDate ??= DateTime.Now.GetFirstDay();
+
+                var query = context
+                    .Transactions
+                    .AsNoTracking()
+                    .Where(x => x.UserId == request.UserId && x.CreatedAt >= request.StartDate && x.CreatedAt <= request.EndDate)
+                    .OrderBy(x => x.CreatedAt);
+
+                var transaction = await query
+                    .Skip((request.PageNumber - 1) * request.PageSize)
+                    .Take(request.PageSize)
+                    .ToListAsync();
+
+                var count = await query.CountAsync();
+
+                return new PagedResponse<List<Transaction?>>(transaction, count, request.PageNumber, request.PageSize);
+            }
+            catch (Exception ex)
+            {
+                //seriloger
+                Console.WriteLine(ex);
+                return new PagedResponse<List<Transaction?>>(null, 500, "Não foi possível buscar as transações");
             }
         }
 
@@ -92,14 +123,14 @@ namespace FullStack.Api.Handlers
             {
                 var transaction = await context.Transactions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
                 return transaction is null
-                    ? new Response<Transaction?>(data: null, code: 404, message: "Categoria não encontrada.")
+                    ? new Response<Transaction?>(data: null, code: 404, message: "Transação não encontrada.")
                     : new Response<Transaction?>(transaction);
             }
             catch (Exception ex)
             {
                 //seriloger
                 Console.WriteLine(ex);
-                return new Response<Transaction?>(null, 500, "Não foi possível buscar a categoria.");
+                return new Response<Transaction?>(null, 500, "Não foi possível buscar a transação.");
             }
         }
 

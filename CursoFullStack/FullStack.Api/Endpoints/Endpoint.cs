@@ -27,7 +27,7 @@ namespace FullStack.Api.Endpoints
                 .MapEndpoint<UpdateTransactionEndpoint>()
                 .MapEndpoint<DeleteTransactionEndpoint>()
                 .MapEndpoint<GetTransactionByIdEndpoint>()
-                .MapEndpoint<GetAllTransactionsEndpoint>()
+                //.MapEndpoint<GetAllTransactionsEndpoint>()
                 .MapEndpoint<GetTransactionsByPeriodEndpoint>();
         }
 

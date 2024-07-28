@@ -92,7 +92,7 @@ namespace FullStack.Api.Handlers
             try
             {
                 request.StartDate ??= DateTime.Now.GetFirstDay();
-                request.EndDate ??= DateTime.Now.GetFirstDay();
+                request.EndDate ??= DateTime.Now.GetLastDay();
 
                 var query = context
                     .Transactions

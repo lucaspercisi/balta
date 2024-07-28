@@ -1,6 +1,12 @@
-﻿namespace FullStack.Api.Commom.Endpoints.Categories
+﻿using FullStack.Api.Commom.Api;
+
+namespace FullStack.Api.Commom.Endpoints.Categories
 {
-    public class CreateCategoryEndpoint
+    public class CreateCategoryEndpoint : IEndpoint
     {
+        public static void Map(IEndpointRouteBuilder app)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

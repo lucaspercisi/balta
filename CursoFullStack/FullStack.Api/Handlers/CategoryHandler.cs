@@ -55,9 +55,31 @@ namespace FullStack.Api.Handlers
             }
         }
 
-        public Task<Response<List<Category?>>> GetAllAsync(GetAllCategoryRequest request)
+        public async Task<PagedResponse<List<Category?>>> GetAllAsync(GetAllCategoryRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = context
+                    .Categories
+                    .AsNoTracking()
+                    .Where(x => x.UserId == request.UserId)
+                    .OrderBy(x => x.Title);
+
+                var category = await query
+                    .Skip((request.PageNumber - 1) * request.PageSize)
+                    .Take(request.PageSize)
+                    .ToListAsync();
+
+                var count = await query.CountAsync();
+
+                return new PagedResponse<List<Category?>> (category, count, request.PageNumber, request.PageSize);
+            }
+            catch (Exception ex)
+            {
+                //seriloger
+                Console.WriteLine(ex);
+                return new PagedResponse<List<Category?>> (null, 500, "Não foi possível buscar as categorias");
+            }
         }
 
         public async Task<Response<Category?>> GetByIdAsync(GetCategoryRequest request)

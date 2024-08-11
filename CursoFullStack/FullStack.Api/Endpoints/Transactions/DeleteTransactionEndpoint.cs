@@ -3,6 +3,7 @@ using FullStack.Core.Handlers;
 using FullStack.Core.Models;
 using FullStack.Core.Requests.Transactions;
 using FullStack.Core.Responses;
+using System.Security.Claims;
 
 namespace FullStack.Api.Endpoints.Transactions
 {
@@ -16,12 +17,12 @@ namespace FullStack.Api.Endpoints.Transactions
             .WithOrder(3)
             .Produces<Response<Transaction?>>();
 
-        private static async Task<IResult> HandleAsync(ITransactionHandler handler, long id)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ITransactionHandler handler, long id)
         {
             var request = new DeleteTransactionRequest
             {
                 Id = id,
-                UserId = "teste@lucas.io"
+                UserId = user.Identity?.Name ?? string.Empty
             };
 
             var result = await handler.DeleteAsync(request);

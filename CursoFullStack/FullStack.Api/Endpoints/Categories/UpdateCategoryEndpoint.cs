@@ -3,6 +3,7 @@ using FullStack.Core.Handlers;
 using FullStack.Core.Models;
 using FullStack.Core.Requests.Categories;
 using FullStack.Core.Responses;
+using System.Security.Claims;
 
 namespace FullStack.Api.Endpoints.Categories
 {
@@ -16,9 +17,9 @@ namespace FullStack.Api.Endpoints.Categories
             .WithOrder(2)
             .Produces<Response<Category?>>();
 
-        private static async Task<IResult> HandleAsync(ICategoryHandler handler, UpdateCategoryRequest request, long id)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ICategoryHandler handler, UpdateCategoryRequest request, long id)
         {
-            request.UserId = "teste@lucas.io";
+            request.UserId = user.Identity?.Name ?? string.Empty;
             request.Id = id;
             var result = await handler.UpdateAsync(request);
 

@@ -3,6 +3,7 @@ using FullStack.Core.Handlers;
 using FullStack.Core.Models;
 using FullStack.Core.Requests.Categories;
 using FullStack.Core.Responses;
+using System.Security.Claims;
 
 namespace FullStack.Api.Endpoints.Categories
 {
@@ -16,12 +17,12 @@ namespace FullStack.Api.Endpoints.Categories
             .WithOrder(3)
             .Produces<Response<Category?>>();
 
-        private static async Task<IResult> HandleAsync(ICategoryHandler handler, long id)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ICategoryHandler handler, long id)
         {
             var request = new DeleteCategoryRequest
             {
                 Id = id,
-                UserId = "teste@lucas.io"
+                UserId = user.Identity?.Name ?? string.Empty
             };
 
             var result = await handler.DeleteAsync(request);

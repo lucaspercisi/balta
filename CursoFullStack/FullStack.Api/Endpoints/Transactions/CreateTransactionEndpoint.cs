@@ -3,6 +3,7 @@ using FullStack.Core.Handlers;
 using FullStack.Core.Models;
 using FullStack.Core.Requests.Transactions;
 using FullStack.Core.Responses;
+using System.Security.Claims;
 
 namespace FullStack.Api.Endpoints.Transactions
 {
@@ -16,9 +17,9 @@ namespace FullStack.Api.Endpoints.Transactions
             .WithOrder(1)
             .Produces<Response<Transaction?>>();
 
-        private static async Task<IResult> HandleAsync(ITransactionHandler handler, CreateTransactionRequest request)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, ITransactionHandler handler, CreateTransactionRequest request)
         {
-            request.UserId = "teste@lucas.io";
+            request.UserId = user.Identity?.Name ?? string.Empty;
             var result = await handler.CreateAsync(request);
 
             return result.IsSucess

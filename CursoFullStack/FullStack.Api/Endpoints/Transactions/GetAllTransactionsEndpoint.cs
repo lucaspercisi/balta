@@ -5,6 +5,7 @@ using FullStack.Core.Models;
 using FullStack.Core.Requests.Transactions;
 using FullStack.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FullStack.Api.Endpoints.Transactions
 {
@@ -18,7 +19,7 @@ namespace FullStack.Api.Endpoints.Transactions
             .WithOrder(2)
             .Produces<PagedResponse<List<Transaction>?>>();
 
-        private static async Task<IResult> HandleAsync(
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user,
             ITransactionHandler handler,
             [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
             [FromQuery] int pageSize = Configuration.DefaultPageSize)
@@ -27,7 +28,7 @@ namespace FullStack.Api.Endpoints.Transactions
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                UserId = "teste@lucas.io"
+                UserId = user.Identity?.Name ?? string.Empty
             };
 
             var result = await handler.GetAllAsync(request);

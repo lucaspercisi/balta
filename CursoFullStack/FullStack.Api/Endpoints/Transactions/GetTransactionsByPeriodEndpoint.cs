@@ -5,6 +5,7 @@ using FullStack.Core.Models;
 using FullStack.Core.Requests.Transactions;
 using FullStack.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FullStack.Api.Endpoints.Transactions
 {
@@ -19,6 +20,7 @@ namespace FullStack.Api.Endpoints.Transactions
             .Produces<PagedResponse<List<Transaction>?>>();
 
         private static async Task<IResult> HandleAsync(
+            ClaimsPrincipal user,
             ITransactionHandler handler,
             [FromQuery] DateTime? startDate = null,
             [FromQuery] DateTime? endDate = null,
@@ -27,7 +29,7 @@ namespace FullStack.Api.Endpoints.Transactions
         {
             var request = new GetTransactionsByPeriodRequest
             {
-                UserId = "teste@lucas.io",
+                UserId = user.Identity?.Name ?? string.Empty,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 StartDate = startDate,

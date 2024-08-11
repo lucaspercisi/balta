@@ -1,6 +1,8 @@
 ﻿using FullStack.Api.Commom.Api;
 using FullStack.Api.Endpoints.Categories;
+using FullStack.Api.Endpoints.Identity;
 using FullStack.Api.Endpoints.Transactions;
+using FullStack.Api.Models;
 
 namespace FullStack.Api.Endpoints
 {
@@ -14,6 +16,16 @@ namespace FullStack.Api.Endpoints
             endpoints.MapGroup("/")
                 .WithTags("Health Check")
                 .MapGet("/", () => new { message = "OK" });
+
+            endpoints.MapGroup("v1/identity")
+                .WithTags("Identity")
+                .MapIdentityApi<User>()
+                .RequireAuthorization();
+
+            endpoints.MapGroup("v1/identity")
+                .WithTags("Identity")
+                .MapEndpoint<LogoutEndpoint>()
+                .MapEndpoint<GetRolesEndpoint>();
 
             endpoints.MapGroup("v1/categories")
                 .WithTags("Categories")

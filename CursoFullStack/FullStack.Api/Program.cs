@@ -1,6 +1,7 @@
 using FullStack.Api.Data;
 using FullStack.Api.Endpoints;
 using FullStack.Api.Handlers;
+using FullStack.Api.Models;
 using FullStack.Core.Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,12 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 {
     x.UseSqlServer(connectionString);
 });
+
+builder.Services
+    .AddIdentityCore<User>()
+    .AddRoles<IdentityRole<long>>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddApiEndpoints();
 
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();

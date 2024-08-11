@@ -11,6 +11,10 @@ namespace FullStack.Api.Endpoints
             var endpoints = app
                 .MapGroup("");
 
+            endpoints.MapGroup("/")
+                .WithTags("Health Check")
+                .MapGet("/", () => new { message = "OK" });
+
             endpoints.MapGroup("v1/categories")
                 .WithTags("Categories")
                 .RequireAuthorization()

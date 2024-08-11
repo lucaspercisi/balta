@@ -1,34 +1,17 @@
 using FullStack.Api.Commom.Api;
-using FullStack.Api.Data;
 using FullStack.Api.Endpoints;
-using FullStack.Api.Handlers;
 using FullStack.Api.Models;
-using FullStack.Core;
-using FullStack.Core.Handlers;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddConfiguration();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(x => { x.CustomSchemaIds(n => n.FullName); });
-
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
-builder.Services.AddAuthorization();
-
-builder.Services.AddDbContext<AppDbContext>(x => { x.UseSqlServer(Configuration.ConnectionString); });
-
-builder.Services
-    .AddIdentityCore<User>()
-    .AddRoles<IdentityRole<long>>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddApiEndpoints();
-
-builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
-builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+builder.AddSecurity();
+builder.AddDataContexts();
+builder.AddCrossOrigin();
+builder.AddDocumentation();
+builder.AddServices();
 
 var app = builder.Build();
 

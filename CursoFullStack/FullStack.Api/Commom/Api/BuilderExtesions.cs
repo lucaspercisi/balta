@@ -13,6 +13,8 @@ namespace FullStack.Api.Commom.Api
         public static void AddConfiguration(this WebApplicationBuilder builder)
         {
             Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+            Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
+            Configuration.FrontEndUrl = builder.Configuration.GetValue<string>("FrontendUrl") ?? string.Empty;
         }
 
         public static void AddDocumentation(this WebApplicationBuilder builder)
@@ -35,7 +37,7 @@ namespace FullStack.Api.Commom.Api
                 .AddIdentityCore<User>()
                 .AddRoles<IdentityRole<long>>()
                 .AddEntityFrameworkStores<AppDbContext>()
-                .AddApiEndpoints(); 
+                .AddApiEndpoints();
         }
 
         public static void AddServices(this WebApplicationBuilder builder)
@@ -46,7 +48,14 @@ namespace FullStack.Api.Commom.Api
 
         public static void AddCrossOrigin(this WebApplicationBuilder builder)
         {
-
+            builder.Services.AddCors(op 
+                => op.AddPolicy(ApiConfiguration.CorsPolicyName,policy 
+                    => policy
+                        .WithOrigins([Configuration.BackendUrl, Configuration.FrontEndUrl])
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials())
+                );
         }
     }
 }

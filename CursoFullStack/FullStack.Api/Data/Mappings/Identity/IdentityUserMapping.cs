@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FullStack.Api.Data.Mappings
+namespace FullStack.Api.Data.Mappings.Identity
 {
     public class IdentityUserMapping : IEntityTypeConfiguration<User>
     {

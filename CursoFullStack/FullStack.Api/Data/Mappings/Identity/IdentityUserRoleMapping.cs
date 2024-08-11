@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FullStack.Api.Data.Mappings
+namespace FullStack.Api.Data.Mappings.Identity
 {
     public class IdentityUserRoleMapping : IEntityTypeConfiguration<IdentityUserRole<long>>
     {

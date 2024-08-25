@@ -14,20 +14,25 @@
             </div>
 
             <MudForm @ref="_mudForm">
-                <MudTextField 
-                    T="string"
-                    Label="E-Mail"
-                    InputType="InputType.Email"
-                    Required=true
-                    RequiredError="Informe o E-mail"
-                    Validation="@(new EmailAddressAttribute { ErrorMessage = "E-mail inválido"})"/>
+                <MudTextField T="string"
+                              Label="E-Mail"
+                              InputType="InputType.Email"
+                              Required=true
+                              RequiredError="Informe o E-mail"
+                              Validation="@(new EmailAddressAttribute { ErrorMessage = "E-mail inválido"})" />
 
                 <MudTextField T="string"
-                    Label="Senha"
-                    InputType="InputType.Password"
-                    Required=true
-                    RequiredError="Senha inválida"/>
+                              Label="Senha"
+                              InputType="InputType.Password"
+                              Required=true
+                              RequiredError="Senha inválida" />
             </MudForm>
+
+            <div class="d-flex mt-8">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary">ENTRAR</MudButton>
+                <MudSpacer/>
+                <MudButton Href="/comecar">REGISTRAR</MudButton>
+            </div>
 
         </MudPaper>
     </MudItem>

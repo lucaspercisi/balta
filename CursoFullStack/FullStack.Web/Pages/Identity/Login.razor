@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
 @layout HeadlessLayout
 
 <PageTitle> Balta - Entrar</PageTitle>
@@ -11,8 +12,30 @@
                      alt="Dima - Controle Financeiro"
                      width="200" />
             </div>
-            <h1>Autentique-se</h1>
+
+            <MudForm @ref="_mudForm">
+                <MudTextField 
+                    T="string"
+                    Label="E-Mail"
+                    InputType="InputType.Email"
+                    Required=true
+                    RequiredError="Informe o E-mail"
+                    Validation="@(new EmailAddressAttribute { ErrorMessage = "E-mail inválido"})"/>
+
+                <MudTextField T="string"
+                    Label="Senha"
+                    InputType="InputType.Password"
+                    Required=true
+                    RequiredError="Senha inválida"/>
+            </MudForm>
+
         </MudPaper>
     </MudItem>
 </MudGrid>
 
+
+@code {
+
+    MudForm? _mudForm;
+
+}

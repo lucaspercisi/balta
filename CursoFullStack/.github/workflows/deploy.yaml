@@ -1,0 +1,72 @@
+name: Deploy FullStack App
+
+on:
+  push:
+    branches:
+      - main  # Automatizar deploy apenas em pushes para a branch principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Baixar o código do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configurar o .NET SDK (agora versão 8)
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x  # Utilizando .NET 8
+
+      # Restaurar as dependências dos projetos
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Construir o projeto Core e o Backend
+      - name: Build Core and API
+        run: dotnet build FullStack.Core/FullStack.Core.csproj --configuration Release
+
+      # Publicar a API
+      - name: Publish API
+        run: dotnet publish FullStack.Api/FullStack.Api.csproj -c Release -o ./publish
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configurar o .NET SDK novamente para a etapa de deploy
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x
+
+      # Deploy da API para um servidor (via SSH, por exemplo)
+      - name: Deploy API to Server
+        uses: appleboy/ssh-action@v0.1.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mkdir -p /var/www/fullstack-api
+            rm -rf /var/www/fullstack-api/*
+            scp -r ./publish/* /var/www/fullstack-api/
+            # Reiniciar o serviço da API (adaptar conforme necessário)
+            sudo systemctl restart fullstack-api.service
+
+      # Publicar o projeto Blazor WebAssembly (MudBlazor)
+      - name: Publish Blazor WebAssembly
+        run: dotnet publish FullStack.Web/FullStack.Web.csproj -c Release -o ./blazor-publish
+
+      # Deploy do Blazor para um servidor ou serviço de hospedagem estático
+      - name: Deploy Blazor to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./blazor-publish/wwwroot
